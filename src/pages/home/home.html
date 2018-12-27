@@ -1,11 +1,11 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Home</ion-title>
+    <ion-title>Expense Report</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h2>Welcome to Ionic!</h2>
+  <!-- <h2>Welcome to Ionic!</h2>
   <p>
     This starter project comes with simple tabs-based layout for apps
     that are going to primarily use a Tabbed UI.
@@ -13,5 +13,211 @@
   <p>
     Take a look at the <code>src/pages/</code> directory to add or change tabs,
     update any existing page or create new pages.
-  </p>
+  </p> -->
+
+
+  <div style="overflow-x:auto;">
+    <table>
+      <tr>
+        <th class="longHeader">Receipt Type & Details</th>
+        <th>SUN</th>
+        <th>MON</th>
+        <th>TUE</th>
+        <th>WED</th>
+        <th>THU</th>
+        <th>FRI</th>
+        <th>SAT</th>
+        <th>TOTAL</th>
+      </tr>
+      <tr>
+        <td>Meals (Breakfast)</td>
+        <td>10</td>
+        <td>50</td>
+        <td>50</td>
+        <td>50</td>
+        <td>50</td>
+        <td>50</td>
+        <td>50</td>
+        <td>50</td>
+      </tr>
+      <tr>
+        <td>Meals (Lunch)</td>
+        <td>10</td>
+        <td>94</td>
+        <td>94</td>
+        <td>94</td>
+        <td>94</td>
+        <td>94</td>
+        <td>94</td>
+        <td>94</td>
+      </tr>
+      <tr>
+        <td>Meals (Dinner)</td>
+        <td>10</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+      </tr>
+      <tr>
+        <td>Travel</td>
+        <td>10</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+      </tr>
+      <tr>
+        <td>Hotel / Motel</td>
+        <td>10</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+      </tr>
+      <tr>
+        <td>Airfare</td>
+        <td>10</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+      </tr>
+      <tr>
+        <td>Taxi / Cab</td>
+        <td>10</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+      </tr>
+      <tr>
+        <td>Auto Rental</td>
+        <td>10</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+      </tr>
+      <tr>
+        <td>Parking</td>
+        <td>10</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+      </tr>
+      <tr>
+        <td>Miscellaneous</td>
+        <td>10</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+      </tr>
+      <tr>
+        <td>Office Supplies</td>
+        <td>10</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+      </tr>
+      <tr>
+        <td>Telephone</td>
+        <td>10</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+      </tr>
+      <tr>
+        <td>Postage</td>
+        <td>10</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+      </tr>
+      <tr>
+        <td>Samples</td>
+        <td>10</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+      </tr>
+      <tr>
+        <td>Mileage</td>
+        <td>10</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+        <td>67</td>
+      </tr>
+    </table>
+  </div>
+
+
+  <ion-fab right bottom>
+    <button ion-fab>
+      <ion-icon name="add"></ion-icon>
+    </button>
+    <ion-fab-list side="left">
+      <button ion-fab color="primary">
+        <ion-icon name="search"></ion-icon>
+      </button>
+      <button ion-fab color="primary">
+        <ion-icon name="create"></ion-icon>
+      </button>
+      <button ion-fab color="primary">
+        <ion-icon name="refresh-circle"></ion-icon>
+      </button>
+    </ion-fab-list>
+  </ion-fab>
+
+
+
+
+
+
 </ion-content>
