@@ -15,8 +15,8 @@ una vez este listo todo ejecutar
 -------------------------------------------------------------------------------------------------------
 (En caso de no tener ionic instalado)
 
-sudo npm install -g cordova
-sudo npm install -g ionic
-ionic serve -c
+- sudo npm install -g cordova
+- sudo npm install -g ionic
+- ionic serve -c
 
 --------------------------------------------------------------------------------------------------------
