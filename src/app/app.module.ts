@@ -7,6 +7,7 @@ import { ScanPage } from '../pages/scan/scan';
 import { ProfilePage } from '../pages/profile/profile';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
+import { RegisterPage } from '../pages/register/register';
 import { TabsPage } from '../pages/tabs/tabs';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -22,6 +23,7 @@ import { Camera } from '@ionic-native/camera';
     ProfilePage,
     HomePage,
     LoginPage,
+    RegisterPage,
     TabsPage
   ],
   imports: [
@@ -35,6 +37,7 @@ import { Camera } from '@ionic-native/camera';
     ProfilePage,
     HomePage,
     LoginPage,
+    RegisterPage,
     TabsPage
   ],
   providers: [

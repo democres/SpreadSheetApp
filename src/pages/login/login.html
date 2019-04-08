@@ -27,12 +27,7 @@
         <button ion-button class="submit-btn" full type="submit"
                 [disabled]="!loginForm.form.valid">Login
         </button>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <div *ngIf="error" class="alert alert-danger">{{error}}</div>
-        <button ion-button class="submit-btn" full type="" (ngSubmit)="register()" [disabled]=false>Register</button>
+        <button ion-button class="btn" full type="button" (click)="register()">Register</button>
       </ion-col>
     </ion-row>
   </form>

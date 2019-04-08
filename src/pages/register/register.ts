@@ -1,14 +1,13 @@
 import { Component, ViewChild} from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs';
-import { RegisterPage } from '../register/register';
 import { AlertController } from 'ionic-angular';
 
 @Component({
-  selector: 'page-login',
-  templateUrl: 'login.html'
+  selector: 'page-register',
+  templateUrl: 'register.html'
 })
-export class LoginPage {
+export class RegisterPage {
 
   constructor(public navCtrl: NavController, private alertCtrl: AlertController) {
   }
@@ -27,7 +26,7 @@ export class LoginPage {
   }
 
   register(): void {
-      this.navCtrl.push(RegisterPage);
+      this.navCtrl.push(TabsPage);
   }
 
   showAlert(message, title){

@@ -13,7 +13,7 @@ export class MyApp {
   rootPage:any = TabsPage;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
-    
+
     // if (oauthService.hasValidIdToken()) {
     //   this.rootPage = TabsPage;
     // } else {
