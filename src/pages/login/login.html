@@ -29,5 +29,11 @@
         </button>
       </ion-col>
     </ion-row>
+    <ion-row>
+      <ion-col>
+        <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+        <button ion-button class="submit-btn" full type="" (ngSubmit)="register()" [disabled]=false>Register</button>
+      </ion-col>
+    </ion-row>
   </form>
 </ion-content>
