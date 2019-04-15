@@ -15,6 +15,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { Camera } from '@ionic-native/camera';
 
+import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,8 @@ import { Camera } from '@ionic-native/camera';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
+    FileTransfer,
+    FileTransferObject,
     Camera
   ]
 })

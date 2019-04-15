@@ -3,17 +3,27 @@ import { NavController } from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs';
 import { AlertController } from 'ionic-angular';
 
+import { LoadingController, ToastController } from 'ionic-angular';
+
 @Component({
   selector: 'page-register',
   templateUrl: 'register.html'
 })
 export class RegisterPage {
 
-  constructor(public navCtrl: NavController, private alertCtrl: AlertController) {
+    
+  imageURI:any;
+  imageFileName:any;
+
+  constructor(private navCtrl: NavController, private alertCtrl: AlertController,
+  private loadingCtrl: LoadingController,
+  private toastCtrl: ToastController) {
+
   }
 
   @ViewChild('username') username: any;
   @ViewChild('password') password: any;
+
 
   login(): void {
 
@@ -37,5 +47,7 @@ export class RegisterPage {
     });
     alert.present();
   }
+
+
 
 }

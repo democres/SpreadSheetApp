@@ -11,7 +11,7 @@
 
 
     <button ion-button full (click)="selectSource()">Select Image</button>
-    <button ion-button full (click)="recognizeImage()" [disabled]="!selectedImage">Process Image</button>
+    <button ion-button full (click)="uploadImage()" [disabled]="!selectedImage">Process Image</button>
 
     <img [src]="selectedImage" *ngIf="selectedImage">
 

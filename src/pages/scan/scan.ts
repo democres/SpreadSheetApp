@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { NavController, ActionSheetController } from 'ionic-angular';
-import { Camera, PictureSourceType } from '@ionic-native/camera';
-import * as Tesseract from 'tesseract.js'
-import { AlertController, LoadingController } from 'ionic-angular';
-
+import { Camera, CameraOptions} from '@ionic-native/camera';
+import { AlertController, LoadingController, ToastController } from 'ionic-angular';
+import { FileTransfer,FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+import { Http ,Response ,Headers, RequestOptions} from '@angular/http';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'page-scan',
@@ -18,9 +19,15 @@ export class ScanPage {
     private alertCtrl: AlertController,
     public navCtrl: NavController,
     private camera: Camera,
+    private transfer: FileTransfer,
     private actionSheetCtrl: ActionSheetController,
-    private loading: LoadingController) {
+    private loadingCtrl: LoadingController,
+    private toastCtrl: ToastController,
+    private http: Http) {
   }
+
+
+
 
   selectSource() {
     let actionSheet = this.actionSheetCtrl.create({
@@ -44,53 +51,107 @@ export class ScanPage {
     actionSheet.present();
   }
 
-  getPicture(sourceType: PictureSourceType) {
-    this.camera.getPicture({
+  getPicture(sourceType) {
+    const options: CameraOptions = {
       quality: 100,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      sourceType: sourceType,
-      allowEdit: true,
-      saveToPhotoAlbum: false,
-      correctOrientation: true
-    }).then((imageData) => {
-      this.selectedImage = `data:image/jpeg;base64,${imageData}`;
+      destinationType: this.camera.DestinationType.FILE_URI,
+      sourceType: sourceType
+    }
+  
+    this.camera.getPicture(options).then((imageData) => {
+      this.selectedImage = imageData;
+    }, (err) => {
+      console.log(err);
+      this.presentToast(err);
     });
   }
 
-  async recognizeImage() {
 
-    const loading = await this.loading.create({
-      content: 'Processing Image...',
-      spinner: 'crescent', // lines, lines-small, dots, bubbles, circles, crescent
-    });
-    loading.present();
 
-    Tesseract.recognize(this.selectedImage)
-      .progress(message => {
-        // if (message.status === 'recognizing text')
+uploadImage() {
+  let loader = this.loadingCtrl.create({
+    content: "Uploading..."
+  });
+  loader.present();
 
-      })
-      .catch(err => console.error(err))
-      .then(result => {
-        this.imageText = result.text;
-      })
-      .finally(resultOrError => {
+  let fileTransfer: FileTransferObject = this.transfer.create()
 
-        loading.dismiss();
-
-        let alert = this.alertCtrl.create({
-          title: "Success",
-          subTitle: "Image Processed successfully",
-          buttons: [{
-            text: 'Continue',
-            handler: () => {
-              this.navCtrl.parent.select(0);
-            }
-          }]
-        });
-        alert.present();
-
-      });
+  let options: FileUploadOptions = {
+    fileKey: 'ionicfile',
+    fileName: 'ionicfile',
+    chunkedMode: false,
+    mimeType: "image/jpeg",
+    headers: {'Authorization': 'basic TGlhbFN5c3RlbXMtRXhwZW5zZS1SZXBvcnQ6ZGU0cnJXR1dXNzE2WE5nV1ByT3dpc2pR' },
   }
+
+  fileTransfer.upload(this.selectedImage, 'https://cloud-westus.ocrsdk.com/processReceipt', options)
+    .then((data) => {
+      console.log(data+" Uploaded Successfully");
+      loader.dismiss();
+      this.presentToast("Image uploaded successfully");
+      console.log("--------------------------------------------------");
+      console.log("--------------------------------------------------");
+      console.log("DATA --> " + JSON.stringify(data), "SUCCESS");
+      console.log("--------------------------------------------------");
+      console.log("RESPONSE --> " + data.response, "SUCCESS");
+      console.log("--------------------------------------------------");
+      console.log("--------------------------------------------------");
+      this.getResults()
+    }, (err) => {
+      console.log("FATAL ERROR: " + err);
+      loader.dismiss();
+      this.showAlert("Error Uploading Image " + JSON.stringify(err), "ANY");
+    })
+
+}
+
+
+getResults() {
+  let loader = this.loadingCtrl.create({
+    content: "Recognizing Image..."
+  });
+  loader.present();
+
+  let options: FileUploadOptions = {
+    fileKey: 'ionicfile',
+    fileName: 'ionicfile',
+    chunkedMode: false,
+    mimeType: "image/jpeg",
+    headers: {'Authorization': 'basic TGlhbFN5c3RlbXMtRXhwZW5zZS1SZXBvcnQ6ZGU0cnJXR1dXNzE2WE5nV1ByT3dpc2pR' },
+  }
+  this.http.get("SERVER_URL",{}).pipe(map((res: Response) =>{
+    var data = res.json();
+  }));
+
+}
+
+
+
+
+//SHOW MESSAGES TO THE USER
+
+presentToast(msg) {
+  let toast = this.toastCtrl.create({
+    message: msg,
+    duration: 3000,
+    position: 'bottom'
+  });
+
+  toast.onDidDismiss(() => {
+    console.log('Dismissed toast');
+  });
+
+  toast.present();
+}
+
+
+showAlert(message, title){
+  let alert = this.alertCtrl.create({
+    title: title,
+    subTitle: message,
+    buttons: ['OK']
+  });
+  alert.present();
+}
 
 }
