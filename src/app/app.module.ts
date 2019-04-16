@@ -17,6 +17,8 @@ import { Camera } from '@ionic-native/camera';
 
 import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
 
+import { HttpClient, HttpHandler, HttpClientModule } from '@angular/common/http';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -29,6 +31,7 @@ import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -47,7 +50,9 @@ import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     FileTransfer,
     FileTransferObject,
-    Camera
+    Camera,
+    HttpClient,
+    HttpClientModule
   ]
 })
 export class AppModule {}
