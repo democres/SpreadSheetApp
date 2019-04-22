@@ -22,13 +22,6 @@ import {
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { map } from "rxjs/operators";
-
-import * as xml2js from "xml2js";
-
-import { xml2json } from 'xml-js';
-
-
 @Component({
   selector: "page-scan",
   templateUrl: "scan.html"
@@ -46,7 +39,7 @@ export class ScanPage {
     private actionSheetCtrl: ActionSheetController,
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
-    private http: HttpClient
+    private http: HttpClient,
   ) {}
 
   selectSource() {
@@ -91,6 +84,7 @@ export class ScanPage {
     );
   }
 
+ 
   uploadImage() {
     let loader = this.loadingCtrl.create({
       content: "Uploading..."
@@ -129,26 +123,17 @@ export class ScanPage {
           console.log("--------------------------------------------------");
           console.log("--------------------------------------------------");
 
-          
-          
-          var xml = `<?xml version="1.0" encoding="utf-8"?><list table='DDFieldList' id='59' used='true' type='list'>
-          <item>
-              <label>Please select</label>
-              <data>0</data>
-              <index>0</index>
-              <itemId>0</itemId>
-              <parentIndexId />
-              <excludeSection />
-          </item></list>`;
+       
+          let parseString = require('xml2js').parseString;
+          var taskId = ""
+          parseString(data.response, function (err, result) {
+            console.log("THIS IS THE RESULT AND ID-> " + JSON.stringify(result.response.task["$"]));
+            taskId = result.response.task[0]["$"].id
+          });
 
-          var result1 =xml2json(data.response, {compact: true, spaces: 4});
-
-          console.log("PARSED STRING -->" + result1);
-          console.log("SHOWING taskId ----> " + result1["response"]);
-          // this.getResults(result1["response"]["task"]["_attributes"]["id"]);
-          
-
-          
+          console.log("SHOWING taskId ----> " + JSON.stringify(taskId));
+          this.getResults(taskId);
+           
         },
         err => {
           console.log("FATAL ERROR: " + err);
@@ -158,17 +143,14 @@ export class ScanPage {
       );
   }
 
+
   getResults(taskId) {
     let loader = this.loadingCtrl.create({
       content: "Recognizing Image..."
     });
     loader.present();
 
-    let myHeaders = new HttpHeaders({
-      'Authorization': "basic TGlhbFN5c3RlbXMtRXhwZW5zZS1SZXBvcnQ6ZGU0cnJXR1dXNzE2WE5nV1ByT3dpc2pR"
-    });
-
-    this.http.get(this.API_URL + "getTaskStatus?taskId="+taskId,{headers:myHeaders} ).subscribe(
+    this.http.get("http://LialSystems-Expense-Report:de4rrWGWW716XNgWPrOwisjQ@cloud-westus.ocrsdk.com/getTaskStatus?taskId=" + taskId,{}).subscribe(
       data => {
         console.log("**************************************************");
         console.log("**************************************************");
@@ -193,6 +175,7 @@ export class ScanPage {
         loader.dismiss();
       }
     );
+
   }
 
   //SHOW MESSAGES TO THE USER
