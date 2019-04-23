@@ -22,6 +22,8 @@ import {
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
+import { HTTP } from '@ionic-native/http';
+
 @Component({
   selector: "page-scan",
   templateUrl: "scan.html"
@@ -40,6 +42,7 @@ export class ScanPage {
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
     private http: HttpClient,
+    private nativeHttp: HTTP
   ) {}
 
   selectSource() {
@@ -145,18 +148,25 @@ export class ScanPage {
 
 
   getResults(taskId) {
+ 
     let loader = this.loadingCtrl.create({
       content: "Recognizing Image..."
     });
     loader.present();
 
-    this.http.get("http://LialSystems-Expense-Report:de4rrWGWW716XNgWPrOwisjQ@cloud-westus.ocrsdk.com/getTaskStatus?taskId=" + taskId,{}).subscribe(
+    this.nativeHttp.get("http://LialSystems-Expense-Report:de4rrWGWW716XNgWPrOwisjQ@cloud-westus.ocrsdk.com/getTaskStatus?taskId=" + taskId,{},{})
+    .then(
       data => {
         console.log("**************************************************");
         console.log("**************************************************");
-        console.log("SUCCESS --> " + JSON.stringify(data) + "SUCCESS");
-        console.log("**************************************************");
-        console.log("RESPONSE --> " + JSON.stringify(data));
+        console.log("THIS IS THE RESULT URL-> " + JSON.stringify(data));
+
+        let parseString = require('xml2js').parseString;
+          var taskId = ""
+          parseString(data, function (err, result) {
+            console.log("THIS IS THE PARSED RESULT URL-> " + JSON.stringify(result));
+          });
+
         console.log("**************************************************");
         console.log("**************************************************");
         loader.dismiss();
@@ -165,13 +175,10 @@ export class ScanPage {
 
         console.log("**************************************************");
         console.log("**************************************************");
-        console.log("ERROR --> " + JSON.stringify(error), "FAIL");
-        console.log("**************************************************");
-        console.log("RESPONSE --> " + error.response, "FAIL");
+        console.log("FATAL ERROR --> " + JSON.stringify(error), "FAIL");
         console.log("**************************************************");
         console.log("**************************************************");
 
-        console.log("Error with Data");
         loader.dismiss();
       }
     );
