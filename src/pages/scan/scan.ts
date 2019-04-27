@@ -154,8 +154,8 @@ export class ScanPage {
     });
     loader.present();
 
-    this.nativeHttp.get("http://LialSystems-Expense-Report:de4rrWGWW716XNgWPrOwisjQ@cloud-westus.ocrsdk.com/getTaskStatus?taskId=" + taskId,{},{})
-    .then(
+    this.http.get("http://ec2-3-16-50-55.us-east-2.compute.amazonaws.com:3333/ocr?taskId="+taskId)
+    .subscribe(
       data => {
         console.log("**************************************************");
         console.log("**************************************************");
