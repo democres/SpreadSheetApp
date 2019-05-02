@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { NavController, ActionSheetController } from "ionic-angular";
 import { Camera, CameraOptions } from "@ionic-native/camera";
+import { DataProvider } from "../../providers/data/data";
 
 import {
   AlertController,
@@ -42,8 +43,13 @@ export class ScanPage {
     private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
     private http: HttpClient,
-    private nativeHttp: HTTP
+    private nativeHttp: HTTP,
+    public sharedData: DataProvider
   ) {}
+
+  loader = this.loadingCtrl.create({
+    content: "Uploading..."
+  });
 
   selectSource() {
     let actionSheet = this.actionSheetCtrl.create({
@@ -71,7 +77,7 @@ export class ScanPage {
 
   getPicture(sourceType) {
     const options: CameraOptions = {
-      quality: 100,
+      quality: 60,
       destinationType: this.camera.DestinationType.FILE_URI,
       sourceType: sourceType
     };
@@ -89,10 +95,8 @@ export class ScanPage {
 
  
   uploadImage() {
-    let loader = this.loadingCtrl.create({
-      content: "Uploading..."
-    });
-    loader.present();
+    
+    this.loader.present();
 
     let fileTransfer: FileTransferObject = this.transfer.create();
 
@@ -103,7 +107,7 @@ export class ScanPage {
       mimeType: "image/jpeg",
       headers: {
         Authorization:
-          "basic TGlhbFN5c3RlbXMtRXhwZW5zZS1SZXBvcnQ6ZGU0cnJXR1dXNzE2WE5nV1ByT3dpc2pR"
+          "basic RXhwZW5zZVJlcG9ydERldjpXaE9jOWxVR0Fwb1BQRzUweTIwS2RJMEg="
       }
     };
 
@@ -115,9 +119,8 @@ export class ScanPage {
       )
       .then(
         data => {
-          console.log(data + " Uploaded Successfully");
-          loader.dismiss();
           this.presentToast("Image uploaded successfully");
+          this.loader.setContent("Recognizing Image...")
           console.log("--------------------------------------------------");
           console.log("--------------------------------------------------");
           console.log("DATA --> " + JSON.stringify(data), "SUCCESS");
@@ -135,41 +138,38 @@ export class ScanPage {
           });
 
           console.log("SHOWING taskId ----> " + JSON.stringify(taskId));
-          this.getResults(taskId);
+          setTimeout(() => {
+            this.getResults(taskId);
+          }, 22000); 
            
         },
         err => {
           console.log("FATAL ERROR: " + err);
-          loader.dismiss();
+          this.loader.dismiss();
           this.showAlert("Error Uploading Image " + JSON.stringify(err), "ANY");
         }
       );
   }
 
-
   getResults(taskId) {
- 
-    let loader = this.loadingCtrl.create({
-      content: "Recognizing Image..."
-    });
-    loader.present();
 
-    this.http.get("http://ec2-3-16-50-55.us-east-2.compute.amazonaws.com:3333/ocr?taskId="+taskId)
+    var headers = new HttpHeaders({'Content-Type': 'text/xml'})
+    headers.set('Accept', 'text/xml');
+    headers.set('Content-Type', 'text/xml');
+
+    taskId = "97324eb0-0d35-4ffb-9b02-2183d906af9f"
+    
+    this.http.get("http://ec2-3-16-50-55.us-east-2.compute.amazonaws.com:3333/ocr/"+taskId,{responseType:'text'})
     .subscribe(
       data => {
         console.log("**************************************************");
         console.log("**************************************************");
-        console.log("THIS IS THE RESULT URL-> " + JSON.stringify(data));
+        console.log("THIS IS THE RESULT URL-> " + data);
 
-        let parseString = require('xml2js').parseString;
-          var taskId = ""
-          parseString(data, function (err, result) {
-            console.log("THIS IS THE PARSED RESULT URL-> " + JSON.stringify(result));
-          });
+        this.processResults(data);
 
         console.log("**************************************************");
         console.log("**************************************************");
-        loader.dismiss();
       },
       error => {
 
@@ -179,10 +179,37 @@ export class ScanPage {
         console.log("**************************************************");
         console.log("**************************************************");
 
-        loader.dismiss();
+        this.loader.dismiss();
       }
     );
 
+  }
+
+
+  processResults(ocrResult){
+
+    this.loader.setContent("Processing Image...");
+    this.loader.present()
+    
+    console.log("THIS IS ocrResult -> " + ocrResult);
+
+        let parseString = require('xml2js').parseString;
+          var parsedOcr = ""
+          parseString(ocrResult, function (err, result) {
+            console.log("THIS IS THE PARSED RESULT OCR-> " + JSON.stringify(result));
+            parsedOcr = result;
+          });
+
+          var receipt = new Receipt("","","","","","");
+          receipt.type =  parsedOcr["receipts"].receipt[0].vendor[0].purchaseType[0];
+          receipt.vendor = parsedOcr["receipts"].receipt[0].vendor[0].name[0].recognizedValue[0].text[0];
+          receipt.state = parsedOcr["receipts"].receipt[0].vendor[0].administrativeRegion[0].normalizedValue[0];
+          receipt.total = parsedOcr["receipts"].receipt[0].vendor[0].total[0].normalizedValue[0];
+          
+
+          this.sharedData.paramData.push(receipt);
+          this.navCtrl.parent.select(0);
+          this.loader.dismiss();
   }
 
   //SHOW MESSAGES TO THE USER
@@ -210,3 +237,18 @@ export class ScanPage {
     alert.present();
   }
 }
+
+
+
+
+export class Receipt {
+  constructor(
+    public type?: string,
+    public state?: string,
+    public vendor?: string,
+    public city?: string,
+    public date?: string,
+    public tax?: string,
+    public total?: string) { }
+}
+

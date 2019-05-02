@@ -20,6 +20,7 @@ import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer';
 import { HttpClient, HttpHandler, HttpClientModule } from '@angular/common/http';
 
 import { HTTP } from '@ionic-native/http';
+import { DataProvider } from '../providers/data/data';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { HTTP } from '@ionic-native/http';
     FileTransferObject,
     Camera,
     HttpClient,
-    HTTP
+    HTTP,
+    DataProvider
   ]
 })
 export class AppModule {}

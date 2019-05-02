@@ -20,180 +20,34 @@
     <table>
       <tr>
         <th class="longHeader">Receipt Type & Details</th>
-        <th>SUN</th>
-        <th>MON</th>
-        <th>TUE</th>
-        <th>WED</th>
-        <th>THU</th>
-        <th>FRI</th>
-        <th>SAT</th>
+        <th>VENDOR</th>
+        <th>CITY</th>
+        <th>STATE</th>
+        <th class="longHeader">DATE</th>
+        <th>TAX</th>
+        <th>SUBTOTAL</th>
         <th>TOTAL</th>
       </tr>
       <tr>
-        <td>Meals (Breakfast)</td>
-        <td>10</td>
-        <td>50</td>
-        <td>50</td>
-        <td>50</td>
-        <td>50</td>
-        <td>50</td>
-        <td>50</td>
-        <td>50</td>
+        <td>Groceries</td>
+        <td>Walmart</td>
+        <td>Milpitas</td>
+        <td>CA</td>
+        <td>21-01-2019</td>
+        <td>8.750%</td>
+        <td>22.92</td>
+        <td>24.93</td>
       </tr>
-      <tr>
-        <td>Meals (Lunch)</td>
-        <td>10</td>
-        <td>94</td>
-        <td>94</td>
-        <td>94</td>
-        <td>94</td>
-        <td>94</td>
-        <td>94</td>
-        <td>94</td>
+
+      <tr *ngFor="let receipt of receipts;">
+        <td> {{receipt.type}} </td>
+        <td> {{receipt.vendor}} </td>
+        <!-- <td> {{receipt.city}} </td>
+        <td> {{receipt.state}} </td>
+        <td> {{receipt.date}} </td>
+        <td> {{receipt.total}} </td> -->
       </tr>
-      <tr>
-        <td>Meals (Dinner)</td>
-        <td>10</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-      </tr>
-      <tr>
-        <td>Travel</td>
-        <td>10</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-      </tr>
-      <tr>
-        <td>Hotel / Motel</td>
-        <td>10</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-      </tr>
-      <tr>
-        <td>Airfare</td>
-        <td>10</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-      </tr>
-      <tr>
-        <td>Taxi / Cab</td>
-        <td>10</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-      </tr>
-      <tr>
-        <td>Auto Rental</td>
-        <td>10</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-      </tr>
-      <tr>
-        <td>Parking</td>
-        <td>10</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-      </tr>
-      <tr>
-        <td>Miscellaneous</td>
-        <td>10</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-      </tr>
-      <tr>
-        <td>Office Supplies</td>
-        <td>10</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-      </tr>
-      <tr>
-        <td>Telephone</td>
-        <td>10</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-      </tr>
-      <tr>
-        <td>Postage</td>
-        <td>10</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-      </tr>
-      <tr>
-        <td>Samples</td>
-        <td>10</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-      </tr>
-      <tr>
-        <td>Mileage</td>
-        <td>10</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-        <td>67</td>
-      </tr>
+
     </table>
   </div>
 
